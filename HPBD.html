@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Sinh Nhật!</title>
+    <link rel="icon"
+        href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTYiIGZpbGw9IiNmZjZiNmIiLz4KPHA+8J+OgjwvcD4KPC9zdmc+Cjwvc3ZnPg=="
+        type="image/svg+xml" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .music-control.playing {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Gift Box Section */
+        .gift-section {
+            text-align: center;
+        }
+
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            border-radius: 10px;
+            position: relative;
+            margin: 0 auto 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .gift-box:hover {
+            transform: scale(1.05) rotateY(5deg);
+        }
+
+        .ribbon-v {
+            width: 30px;
+            height: 200px;
+            background: linear-gradient(to right, #f1c40f, #f39c12);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: inset -5px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .ribbon-h {
+            width: 200px;
+            height: 30px;
+            background: linear-gradient(to bottom, #f1c40f, #f39c12);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .bow {
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(45deg, #e67e22, #d35400);
+            border-radius: 50px 50px 10px 10px;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .bow::before {
+            content: '';
+            width: 20px;
+            height: 15px;
+            background: linear-gradient(45deg, #d35400, #e67e22);
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+        }
+
+        .instruction {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Password Section */
+        .password-section {
+            display: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 80px);
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .keypad button {
+            width: 80px;
+            height: 80px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .keypad button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .keypad button:active {
+            transform: translateY(0);
+        }
+
+        .password-display {
+            background: rgba(255, 255, 255, 0.8);
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 24px;
+            letter-spacing: 10px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .enter-btn {
+            background: linear-gradient(45deg, #56ab2f, #a8e6cf);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 10px;
+        }
+
+        .clear-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 10px;
+        }
+
+        .enter-btn:hover,
+        .clear-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Cake Section */
+        .cake-section {
+            display: none;
+            text-align: center;
+        }
+
+        .cake {
+            width: 300px;
+            height: 200px;
+            margin: 0 auto 30px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .cake:hover {
+            transform: scale(1.05);
+        }
+
+        .cake-base {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to bottom, #8e44ad, #9b59b6);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cake-layer1 {
+            width: 80%;
+            height: 80px;
+            background: linear-gradient(to bottom, #e91e63, #f06292);
+            border-radius: 15px;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cake-layer2 {
+            width: 60%;
+            height: 60px;
+            background: linear-gradient(to bottom, #ff9800, #ffb74d);
+            border-radius: 12px;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .candle {
+            width: 8px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ffeb3b, #ffc107);
+            position: absolute;
+            top: -60px;
+            border-radius: 4px;
+        }
+
+        .candle:nth-child(1) {
+            left: 30%;
+        }
+
+        .candle:nth-child(2) {
+            left: 50%;
+        }
+
+        .candle:nth-child(3) {
+            left: 70%;
+        }
+
+        .flame {
+            width: 12px;
+            height: 15px;
+            background: radial-gradient(circle, #ff5722, #ff9800);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 1s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: translateX(-50%) scale(1) rotate(-2deg);
+            }
+
+            100% {
+                transform: translateX(-50%) scale(1.1) rotate(2deg);
+            }
+        }
+
+        .click-hint {
+            color: white;
+            font-size: 20px;
+            margin-top: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-15px);
+            }
+
+            60% {
+                transform: translateY(-7px);
+            }
+        }
+
+        /* Birthday Card Section */
+        .card-section {
+            display: none;
+            perspective: 1000px;
+        }
+
+        .birthday-card {
+            width: 550px;
+            height: 380px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+
+        .birthday-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            backface-visibility: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 35px;
+            gap: 35px;
+        }
+
+        .card-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-subtitle {
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-message {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+            font-size: 15px;
+            line-height: 1.6;
+            padding-right: 20px;
+        }
+
+        .card-message p {
+            margin-bottom: 12px;
+        }
+
+        .card-message p:last-child {
+            margin-bottom: 0;
+        }
+
+        .photo-frame {
+            width: 170px;
+            height: 250px;
+            border: 6px solid white;
+            border-radius: 15px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+            align-self: center;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Messages */
+        .success-message {
+            background: rgba(46, 204, 113, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .error-message {
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Effects */
+        .confetti {
+            position: fixed;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #fff, #ffeb3b);
+            border-radius: 50%;
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            .birthday-card {
+                width: 90vw;
+                max-width: 400px;
+                height: 500px;
+            }
+
+            .card-back {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 20px;
+                padding: 25px;
+            }
+
+            .photo-frame {
+                width: 140px;
+                height: 180px;
+                order: -1;
+            }
+
+            .card-message {
+                font-size: 13px;
+                text-align: center;
+                padding-right: 0;
+            }
+
+            .card-title {
+                font-size: 26px;
+            }
+
+            .card-subtitle {
+                font-size: 22px;
+            }
+
+            .gift-box {
+                width: 160px;
+                height: 160px;
+            }
+
+            .ribbon-v {
+                width: 24px;
+                height: 160px;
+            }
+
+            .ribbon-h {
+                width: 160px;
+                height: 24px;
+            }
+
+            .instruction {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .birthday-card {
+                width: 95vw;
+                height: 450px;
+            }
+
+            .card-message {
+                font-size: 12px;
+            }
+
+            .photo-frame {
+                width: 120px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="music-control" id="musicBtn" onclick="toggleMusic()" title="Bật/Tắt nhạc">🎵</button>
+
+    <!-- Gift Box Section -->
+    <div id="giftSection" class="gift-section">
+        <h1 class="instruction">Quà cho bạn nè hehe</h1>
+        <div class="gift-box" onclick="openGift()">
+            <div class="ribbon-v"></div>
+            <div class="ribbon-h"></div>
+            <div class="bow"></div>
+        </div>
+    </div>
+
+    <!-- Password Section -->
+    <div id="passwordSection" class="password-section">
+        <h2 style="color: #333; margin-bottom: 20px;">Đoán xem mật khẩu là gì? kakaka</h2>
+        <div class="password-display" id="passwordDisplay"></div>
+
+        <div class="keypad">
+            <button onclick="addDigit('1')">1</button>
+            <button onclick="addDigit('2')">2</button>
+            <button onclick="addDigit('3')">3</button>
+            <button onclick="addDigit('4')">4</button>
+            <button onclick="addDigit('5')">5</button>
+            <button onclick="addDigit('6')">6</button>
+            <button onclick="addDigit('7')">7</button>
+            <button onclick="addDigit('8')">8</button>
+            <button onclick="addDigit('9')">9</button>
+            <button onclick="addDigit('0')" style="grid-column: 2;">0</button>
+        </div>
+
+        <div>
+            <button class="enter-btn" onclick="checkPassword()">ENTER</button>
+            <button class="clear-btn" onclick="clearPassword()">XÓA</button>
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+    <!-- Cake Section -->
+    <div id="cakeSection" class="cake-section">
+        <div class="cake" onclick="showCard()">
+            <div class="cake-base">
+                <div class="cake-layer1">
+                    <div class="cake-layer2">
+                        <div class="candle">
+                            <div class="flame"></div>
+                        </div>
+                        <div class="candle">
+                            <div class="flame"></div>
+                        </div>
+                        <div class="candle">
+                            <div class="flame"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="click-hint">
+            <h2>Ăn bánh đi nè</h2>
+        </div>
+    </div>
+
+    <!-- Birthday Card Section -->
+    <div id="cardSection" class="card-section">
+        <div class="birthday-card" id="birthdayCard" onclick="flipCard()">
+            <div class="card-front">
+                <h2 class="card-title">Happy Birthday To</h2>
+                <h2 class="card-subtitle">Hồng Sương – 29/08</h2>
+            </div>
+            <div class="card-back">
+                <div class="card-message">
+                    <p><strong>Mừng sinh nhật Cục Dàng nhó 😘</strong></p>
+                    <p>Chúc Cục Dàng tuổi 21 với nhiều cơ hội mới, trải nghiệm thú vị và những niềm vui bất ngờ.</p>
+                    <p>Mong bạn ngày càng xinh đẹp, mạnh mẽ, và đặc biệt luôn sống thoải mái, không để áp lực đè nặng.
+                    </p>
+                    <p>Tuổi mới bớt làm lại, chịu khó xách balo đi đây đi đó, nhớ phải rủ tui đi chung đó.
+                    </p>
+                    <p><strong>Thu Sương 8386 – mãi đỉnh, mãi đỉnh, mãi đỉnh 😆😆😆</strong></p>
+                </div>
+                <div class="photo-frame">
+                    <img src="x.jpg" alt="Birthday Photo" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPassword = '';
+        let musicPlaying = false;
+        let isUserInteracted = false;
+        let audio = null;
+
+        // Password: 2908 (29/08)
+        const correctPassword = '2908';
+
+        // Initialize audio
+        function initAudio() {
+            if (!audio) {
+                audio = new Audio('hpbd.mp3');
+                audio.loop = true;
+                audio.volume = 0.3;
+                audio.onerror = function () {
+                    console.log('Không thể tải file nhạc');
+                };
+            }
+            return audio;
+        }
+
+        // Simple beep sound
+        function playBeep(frequency = 800, duration = 0.1, volume = 0.1) {
+            if (!isUserInteracted) return;
+
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + duration);
+            } catch (e) {
+                console.log('Lỗi phát âm thanh:', e);
+            }
+        }
+
+        function toggleMusic() {
+            markUserInteraction();
+            const musicBtn = document.getElementById('musicBtn');
+            const bgMusic = initAudio();
+
+            if (!musicPlaying) {
+                musicPlaying = true;
+                musicBtn.classList.add('playing');
+                musicBtn.innerHTML = '🔇';
+                musicBtn.title = 'Tắt nhạc';
+
+                bgMusic.play().catch(e => {
+                    console.log('Lỗi phát nhạc:', e);
+                });
+            } else {
+                musicPlaying = false;
+                musicBtn.classList.remove('playing');
+                musicBtn.innerHTML = '🎵';
+                musicBtn.title = 'Bật nhạc';
+
+                bgMusic.pause();
+            }
+        }
+
+        function markUserInteraction() {
+            isUserInteracted = true;
+        }
+
+        function openGift() {
+            markUserInteraction();
+            document.getElementById('giftSection').style.display = 'none';
+            document.getElementById('passwordSection').style.display = 'block';
+
+            createSparkles();
+            playBeep(523.25, 0.2, 0.15);
+
+            if (!musicPlaying) {
+                setTimeout(() => toggleMusic(), 500);
+            }
+        }
+
+        function addDigit(digit) {
+            markUserInteraction();
+            if (currentPassword.length < 4) {
+                currentPassword += digit;
+                document.getElementById('passwordDisplay').textContent = '●'.repeat(currentPassword.length);
+                playBeep(600, 0.1, 0.05);
+            }
+        }
+
+        function clearPassword() {
+            markUserInteraction();
+            currentPassword = '';
+            document.getElementById('passwordDisplay').textContent = '';
+            hideMessages();
+            playBeep(400, 0.1, 0.05);
+        }
+
+        function checkPassword() {
+            markUserInteraction();
+
+            if (currentPassword === correctPassword) {
+                showSuccessMessage('Giỏi vậy ta');
+                playBeep(784, 0.3, 0.15);
+                setTimeout(() => {
+                    document.getElementById('passwordSection').style.display = 'none';
+                    document.getElementById('cakeSection').style.display = 'block';
+                    createConfetti();
+                }, 2000);
+            } else {
+                showErrorMessage('Sai gòi nhe. (Gợi ý: Ngày hôm nay)');
+                playBeep(200, 0.5, 0.1);
+                currentPassword = '';
+                document.getElementById('passwordDisplay').textContent = '';
+            }
+        }
+
+        function showCard() {
+            markUserInteraction();
+            document.getElementById('cakeSection').style.display = 'none';
+            document.getElementById('cardSection').style.display = 'block';
+            createConfetti();
+        }
+
+        function flipCard() {
+            markUserInteraction();
+            const card = document.getElementById('birthdayCard');
+            card.classList.toggle('flipped');
+            createSparkles();
+            playBeep(659.25, 0.2, 0.1);
+        }
+
+        // Effects
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                confetti.style.width = confetti.style.height = Math.random() * 8 + 5 + 'px';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        function createSparkles() {
+            for (let i = 0; i < 10; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.left = Math.random() * window.innerWidth + 'px';
+                sparkle.style.top = Math.random() * window.innerHeight + 'px';
+                sparkle.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => sparkle.remove(), 2000);
+            }
+        }
+
+        function showSuccessMessage(msg) {
+            const div = document.getElementById('message');
+            div.className = 'success-message';
+            div.textContent = msg;
+            div.style.opacity = 1;
+            setTimeout(() => div.style.opacity = 0, 2000);
+        }
+
+        function showErrorMessage(msg) {
+            const div = document.getElementById('message');
+            div.className = 'error-message';
+            div.textContent = msg;
+            div.style.opacity = 1;
+            setTimeout(() => div.style.opacity = 0, 2000);
+        }
+
+        function hideMessages() {
+            const div = document.getElementById('message');
+            div.className = '';
+            div.textContent = '';
+            div.style.opacity = 0;
+        }
+
+        // Event listeners
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && document.getElementById('passwordSection').style.display !== 'none') {
+                checkPassword();
+            }
+        });
+
+        document.addEventListener('click', markUserInteraction, { once: true });
+        document.addEventListener('touchstart', markUserInteraction, { once: true });
+        document.addEventListener('keydown', markUserInteraction, { once: true });
+
+        // Preload assets
+        window.addEventListener('load', function () {
+            const img = new Image();
+            img.src = 'x.jpg';
+            initAudio();
+        });
+    </script>
+</body>
+
+</html>
